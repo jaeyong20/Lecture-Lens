@@ -10,7 +10,7 @@ export interface QuizItem {
   difficulty: "하" | "중" | "상";
   type: "multiple_choice" | "short_answer";
   question: string;
-  options?: string[]; // 객관식일 경우 4개
+  options?: string[]; // 객관식용 4지선다
   correct_answer: string;
   explanation: string;
   source_page: string;

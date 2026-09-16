@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
-
-// Gemini 인스턴스 초기화 (환경변수 사용)
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+import mockData from "../../../public/samples/mock-data.json";
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,17 +8,23 @@ export async function POST(req: NextRequest) {
     const file = formData.get("file") as File | null;
     const isPreset = formData.get("isPreset") === "true";
 
-    // 1초 체험 프리셋인 경우 즉시 사전 가공된 목업 데이터 반환
+    // 1초 체험 프리셋이거나 파일이 없는 경우 사전 가공된 목업 데이터 즉시 반환
     if (isPreset || !file) {
-      const mockData = await import("@/../public/samples/mock-data.json");
-      return NextResponse.json(mockData.default || mockData);
+      return NextResponse.json(mockData);
     }
 
-    // PDF 파일을 바이너리 버퍼로 변환
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "GEMINI_API_KEY 환경변수가 설정되지 않았습니다." },
+        { status: 500 }
+      );
+    }
+
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
+    const ai = new GoogleGenAI({ apiKey });
 
-    // Gemini 2.5 Flash 호출 (Structured Outputs 적용)
     const prompt = `
       당신은 전공 서적 및 학술 논문 특화 AI 학습 튜터 '렉처렌즈'입니다.
       제공된 문서를 꼼꼼히 분석하여 다음 조건에 맞는 JSON 형식으로만 응답하세요.

@@ -1,12 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
 export async function POST(req: NextRequest) {
   try {
     const { message, context } = await req.json();
 
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "GEMINI_API_KEY 환경변수가 설정되지 않았습니다." },
+        { status: 500 }
+      );
+    }
+
+    const ai = new GoogleGenAI({ apiKey });
     const systemInstruction = `
       당신은 친절하고 명쾌한 대학 전공 튜터 '렉처렌즈'입니다.
       학습자가 문서 요약이나 퀴즈를 풀면서 이해가 안 가는 개념을 질문하면,
@@ -32,7 +39,7 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error("Chat Error:", error);
     return NextResponse.json(
-      { error: "튜터 응답 중 오류가 발생했습니다." },
+      { error: "튜터 응답 중 오류가 발생했습니다.", details: error.message },
       { status: 500 }
     );
   }
