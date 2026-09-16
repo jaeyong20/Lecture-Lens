@@ -30,7 +30,33 @@
   },
   "quizzes": [
     {
-      "id": "q-1",
+      "id": "q-easy-mc",
+      "linked_summary_id": "point-1",
+      "difficulty": "하",
+      "type": "multiple_choice",
+      "question": "트랜스포머(Transformer) 모델을 제안한 대표적인 기본 논문의 제목은 무엇인가요?",
+      "options": [
+        "Attention Is All You Need",
+        "Deep Residual Learning for Image Recognition",
+        "BERT: Pre-training of Deep Bidirectional Transformers",
+        "Generative Adversarial Nets"
+      ],
+      "correct_answer": "Attention Is All You Need",
+      "explanation": "2017년 구글 브레인 팀이 발표한 트랜스포머의 오리지널 논문 제목은 'Attention Is All You Need'입니다.",
+      "source_page": "Pg. 1, Ln. 1"
+    },
+    {
+      "id": "q-easy-sa",
+      "linked_summary_id": "point-1",
+      "difficulty": "하",
+      "type": "short_answer",
+      "question": "트랜스포머 모델이 문장을 번역하고 단어 간 관계를 파악할 때 핵심적으로 사용하는 메커니즘의 명칭을 쓰시오.",
+      "correct_answer": "Self-Attention",
+      "explanation": "트랜스포머는 RNN 구조 없이 문장 내 단어들끼리의 관계를 직접 비교하는 Self-Attention 기법을 사용합니다.",
+      "source_page": "Pg. 2, Ln. 4"
+    },
+    {
+      "id": "q-mid-mc",
       "linked_summary_id": "point-1",
       "difficulty": "중",
       "type": "multiple_choice",
@@ -46,13 +72,39 @@
       "source_page": "Pg. 3, Ln. 12"
     },
     {
-      "id": "q-2",
+      "id": "q-mid-sa",
+      "linked_summary_id": "point-3",
+      "difficulty": "중",
+      "type": "short_answer",
+      "question": "트랜스포머의 어텐션 메커니즘에서 연산에 사용되는 3가지 기본 요소는 Query, Key, 그리고 무엇인가요?",
+      "correct_answer": "Value",
+      "explanation": "어텐션은 주어진 Query에 대해 모든 Key와의 유사도를 구한 뒤, 이를 가중치로 삼아 Value들을 결합하는 연산입니다.",
+      "source_page": "Pg. 4, Ln. 15"
+    },
+    {
+      "id": "q-hard-mc",
+      "linked_summary_id": "point-3",
+      "difficulty": "상",
+      "type": "multiple_choice",
+      "question": "Multi-Head Attention에서 단일 어텐션 대신 여러 개의 헤드로 분할하여 얻는 가장 큰 기술적 이점은 무엇인가요?",
+      "options": [
+        "서로 다른 위치의 서로 다른 표현 하위 공간(Representation Subspaces)의 정보를 동시에 포착할 수 있다.",
+        "역전파 연산량이 헤드 개수만큼 줄어들어 GPU 메모리가 획기적으로 절약된다.",
+        "입력 시퀀스의 길이가 길어져도 O(1)의 일정한 시간 복잡도를 보장한다.",
+        "별도의 인코더 없이 디코더만으로 번역을 완벽히 수행할 수 있게 해준다."
+      ],
+      "correct_answer": "서로 다른 위치의 서로 다른 표현 하위 공간(Representation Subspaces)의 정보를 동시에 포착할 수 있다.",
+      "explanation": "헤드를 여러 개 둠으로써 모델이 문맥상 다양한 관점(문법적 관계, 의미론적 관계 등)을 동시에 학습할 수 있습니다.",
+      "source_page": "Pg. 5, Ln. 18"
+    },
+    {
+      "id": "q-hard-sa",
       "linked_summary_id": "point-3",
       "difficulty": "상",
       "type": "short_answer",
-      "question": "트랜스포머의 인코더와 디코더에서 단어의 순서 정보를 모델에 주입하기 위해 사용한 기법의 명칭을 쓰시오.",
-      "correct_answer": "Positional Encoding (포지셔널 인코딩)",
-      "explanation": "순환 구조가 없기 때문에 시퀀스 내 토큰의 상대적 또는 절대적 위치 정보를 제공하기 위해 Positional Encoding을 입력 임베딩에 더해줍니다.",
+      "question": "순환 구조가 없는 트랜스포머에서 단어의 순서(시퀀스 위치) 정보를 모델에 주입하기 위해 사용한 기법의 명칭을 쓰시오.",
+      "correct_answer": "Positional Encoding",
+      "explanation": "트랜스포머는 병렬 처리를 위해 순환 구조를 없앴으므로, 각 단어의 위치 정보를 Sin/Cos 함수 기반의 Positional Encoding을 통해 임베딩에 더해줍니다.",
       "source_page": "Pg. 5, Ln. 8"
     }
   ]
