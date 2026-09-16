@@ -1,0 +1,59 @@
+{
+  "document_title": "Attention Is All You Need (Transformer 논문)",
+  "summary": {
+    "key_conclusions": [
+      {
+        "id": "point-1",
+        "location": "Pg. 3, Ln. 12",
+        "text": "순환 신경망(RNN)이나 합성곱(CNN) 없이 오직 Self-Attention 메커니즘만으로 최고 수준의 번역 성능을 달성했습니다."
+      },
+      {
+        "id": "point-2",
+        "location": "Pg. 4, Ln. 5",
+        "text": "학습 속도가 기존 순환 모델에 비해 현저히 빠르며 병렬 처리가 용이합니다."
+      }
+    ],
+    "methodology": [
+      {
+        "id": "point-3",
+        "location": "Pg. 5, Ln. 8",
+        "text": "인코더와 디코더 모두 Multi-Head Attention과 Position-wise Feed-Forward 네트워크를 층층이 쌓아 구성했습니다."
+      }
+    ],
+    "key_takeaways": [
+      {
+        "id": "point-4",
+        "location": "Pg. 10, Ln. 2",
+        "text": "자연어 처리뿐만 아니라 시각, 음성 등 다양한 시퀀스 처리 태스크로의 확장 가능성을 입증했습니다."
+      }
+    ]
+  },
+  "quizzes": [
+    {
+      "id": "q-1",
+      "linked_summary_id": "point-1",
+      "difficulty": "중",
+      "type": "multiple_choice",
+      "question": "트랜스포머(Transformer) 아키텍처가 기존 RNN 계열 모델과 차별화되는 가장 핵심적인 특징은 무엇인가요?",
+      "options": [
+        "합성곱 필터를 이용해 이미지와 텍스트를 동시에 처리한다.",
+        "순환 연결(Recurrence)을 완전히 배제하고 Self-Attention만을 사용한다.",
+        "학습 데이터의 양을 절반 이하로 줄여도 동일한 성능을 낸다.",
+        "역전파 알고리즘 없이 순전파만으로 파라미터를 업데이트한다."
+      ],
+      "correct_answer": "순환 연결(Recurrence)을 완전히 배제하고 Self-Attention만을 사용한다.",
+      "explanation": "논문에서는 순환(Recurrent) 구조를 완전히 제거함으로써 연산의 병렬화를 달성하고 장거리 의존성(Long-term dependency) 문제를 극복했습니다.",
+      "source_page": "Pg. 3, Ln. 12"
+    },
+    {
+      "id": "q-2",
+      "linked_summary_id": "point-3",
+      "difficulty": "상",
+      "type": "short_answer",
+      "question": "트랜스포머의 인코더와 디코더에서 단어의 순서 정보를 모델에 주입하기 위해 사용한 기법의 명칭을 쓰시오.",
+      "correct_answer": "Positional Encoding (포지셔널 인코딩)",
+      "explanation": "순환 구조가 없기 때문에 시퀀스 내 토큰의 상대적 또는 절대적 위치 정보를 제공하기 위해 Positional Encoding을 입력 임베딩에 더해줍니다.",
+      "source_page": "Pg. 5, Ln. 8"
+    }
+  ]
+}
