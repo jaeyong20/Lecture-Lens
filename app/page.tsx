@@ -52,10 +52,21 @@ export default function LectureLensPage() {
     resetQuizState();
   };
 
-  // 실제 PDF 파일 업로드 핸들러
+  // 용량 제한 검증 및 챕터별 업로드 안내 핸들러
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // 4.5MB 제한 사전 검사 및 친절한 가이드
+    const MAX_SIZE_MB = 4.5;
+    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+      alert(
+        `[업로드 안내]\n선택하신 파일 크기: ${(file.size / (1024 * 1024)).toFixed(1)}MB\n\n방대한 전공 서적 전체를 올리기보다는, 시험/발제 범위인 특정 챕터(1~30페이지, 4.5MB 이하) 단위로 업로드하시면 가장 정밀한 요약과 퀴즈가 생성됩니다!`
+      );
+      e.target.value = "";
+      return;
+    }
+
     setLoading(true);
     try {
       const formData = new FormData();
@@ -129,6 +140,7 @@ export default function LectureLensPage() {
       </header>
 
       <div className="max-w-7xl mx-auto px-6 py-5">
+        {/* 업로드 메인 카드 */}
         <div className="bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-100 rounded-2xl p-4 shadow-sm flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-2xl border border-teal-100">
@@ -138,7 +150,7 @@ export default function LectureLensPage() {
               <h2 className="text-lg font-bold text-slate-800">
                 {data?.document_title ? `[학습 중] ${data.document_title}` : "전공 서적 / 논문 PDF 업로드"}
               </h2>
-              <p className="text-xs text-slate-500">영어 원서나 수식이 포함된 PDF를 올리면 AI가 즉시 분석합니다.</p>
+              <p className="text-xs text-slate-500">영어 원서나 복잡한 수식이 포함된 PDF를 올리면 AI가 10초 만에 분석합니다.</p>
             </div>
           </div>
           <div className="flex items-center space-x-3">
@@ -155,15 +167,26 @@ export default function LectureLensPage() {
           </div>
         </div>
 
+        {/* 1번 방식: 상시 안내 팁 배너 */}
+        <div className="mt-2.5 flex items-center justify-between bg-amber-50/90 border border-amber-200/80 rounded-xl px-4 py-2 text-xs text-amber-900 shadow-sm">
+          <div className="flex items-center space-x-2">
+            <span className="text-sm">💡</span>
+            <span>
+              <strong className="font-semibold text-amber-950">학습 최적화 팁:</strong> 방대한 원서 전체보다 시험/세미나 범위인 <strong>챕터별(1~30페이지, 4.5MB 이하)</strong>로 업로드하시면 가장 정밀한 핵심 요약과 개념 퀴즈가 생성됩니다.
+            </span>
+          </div>
+          <span className="text-[11px] font-medium bg-amber-200/60 text-amber-900 px-2 py-0.5 rounded-full border border-amber-300/80 whitespace-nowrap ml-3">
+            권장 규격: 4.5MB 이하
+          </span>
+        </div>
+
         {loading && (
-          <div className="my-6 p-4 bg-teal-100 text-teal-900 rounded-xl text-center font-medium animate-pulse">
+          <div className="my-5 p-4 bg-teal-100 text-teal-900 rounded-xl text-center font-medium animate-pulse">
             Gemini 3.6 Flash가 PDF 원본을 분석하여 3단계 요약 및 퀴즈 6문항을 생성하고 있습니다... (약 5~7초 소요)
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
-          
-          {/* 좌측 컬럼: 핵심 요약 */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-5">
           <div className="lg:col-span-4 bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col space-y-4">
             <div className="flex items-center justify-between border-b pb-3">
               <h3 className="font-bold text-slate-800 text-base">핵심 요약 | 정답 포인트</h3>
@@ -224,7 +247,6 @@ export default function LectureLensPage() {
             </div>
           </div>
 
-          {/* 중앙 컬럼: 문제 풀이 */}
           <div className="lg:col-span-5 bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between border-b pb-3 mb-4">
@@ -343,7 +365,6 @@ export default function LectureLensPage() {
             </div>
           </div>
 
-          {/* 우측 컬럼: AI 튜터 */}
           <div className="lg:col-span-3 bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between h-[680px]">
             <div>
               <div className="border-b pb-3 mb-3">
